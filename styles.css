@@ -1,0 +1,172 @@
+/* CSS Variables for consistent theming across the site */
+:root {
+    --bg: #f8f9fa;
+    --panel: #ffffff;
+    --text: #212529;
+    --muted: #495057;
+    --accent: #0066cc;
+    --divider: #dee2e6;
+}
+
+* { 
+    box-sizing: border-box; 
+}
+
+/* Main body styling - sets sans-serif font and dark theme background */
+body {
+    margin: 0;
+    padding: 32px 16px 48px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif; /* Sans-serif for better screen readability */
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Container for page content with max width and styling */
+.container {
+    width: 100%;
+    max-width: 960px;
+    background: var(--panel);
+    border: 1px solid var(--divider);
+    border-radius: 14px;
+    padding: 32px 40px 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    margin: 0 0 12px;
+    font-size: 34px;
+    letter-spacing: 0.5px;
+}
+
+h2 {
+    margin: 24px 0 8px;
+    letter-spacing: 0.6px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+h3 {
+    margin: 12px 0 4px;
+    font-size: 17px;
+}
+
+h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+p {
+    margin: 6px 0 10px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+ul, ol {
+    margin: 10px 0 14px 20px;
+    padding-left: 18px;
+}
+
+/* List items styled smaller and italic, with normal weight to prevent cascading from parent */
+li { 
+    margin: 4px 0; 
+    line-height: 1.45;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: normal; /* Overrides any bold from parent elements */
+}
+
+/* Link styling - removes default underline */
+a {
+    color: var(--accent);
+    text-decoration: none; /* No underline by default */
+    font-weight: 600;
+}
+
+/* Hover state - adds underline when user hovers over link */
+a:hover { 
+    text-decoration: underline;
+    /* font-weight: bold; */
+    /* font-size: 18px; */
+}
+
+/* Visited state - changes color of visited links */
+a:visited {
+    color: blue;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.hero img {
+    border-radius: 50%;
+    border: 2px solid var(--divider);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+
+.hero-img { 
+    border-radius: 12px; 
+    border: 2px solid var(--divider); 
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35); 
+}
+
+.gallery { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+    gap: 16px; 
+}
+
+.divider { 
+    border-top: 1px solid var(--divider); 
+    margin: 20px 0; 
+}
+
+/* Custom classes from tutorial */
+.bold { 
+    font-weight: bold; 
+}
+
+.underline { 
+    text-decoration: underline; 
+}
+
+.justify {
+    text-align: justify;
+}
+
+.resume-list-heading {
+    font-weight: bold;
+    font-style: normal;
+}
+
+.home-bg {
+    background-image: url('../images/about-1.svg');
+    background-position: top right;
+}
+
+/* Box Model Demonstration */
+.box1 {
+    border-width: 1px;
+    border-style: solid;
+    border-color: gray;
+    /* border: 1px solid red; */
+    /* Note: You can combine width, style, and color into one statement using just 'border' */
+}
+
+.box2 {
+    padding: 5px;
+}
+
+.box3 {
+    margin: 50px;
+}
