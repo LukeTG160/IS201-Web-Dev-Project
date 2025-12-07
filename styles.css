@@ -144,6 +144,10 @@ a:visited {
     text-align: justify;
 }
 
+.muted {
+    color: var(--muted);
+}
+
 .resume-list-heading {
     font-weight: bold;
     font-style: normal;
@@ -169,4 +173,133 @@ a:visited {
 
 .box3 {
     margin: 50px;
+}
+
+/* Resume layout */
+body.resume-body {
+    display: block;
+    padding: 24px 20px 48px;
+}
+
+.resume-topbar {
+    max-width: 1200px;
+    margin: 0 auto 12px;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.resume-topbar a { color: var(--accent); }
+.resume-topbar a.active { color: var(--text); text-decoration: none; }
+
+.resume-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 200px 1fr 260px;
+    gap: 18px;
+    align-items: start;
+}
+
+.resume-card {
+    background: var(--panel);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.resume-nav nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-weight: 600;
+}
+
+.resume-nav a {
+    color: var(--accent);
+}
+
+.resume-main {
+    padding: 28px 32px;
+}
+
+.resume-name {
+    text-align: center;
+    margin: 0 0 12px;
+    font-size: 32px;
+}
+
+.resume-section {
+    margin-bottom: 30px;
+}
+
+.section-heading {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent);
+}
+
+.resume-ordered {
+    margin: 0 0 6px 18px;
+    padding-left: 0;
+}
+
+.resume-ordered li {
+    margin-bottom: 12px;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.resume-list-heading {
+    display: block;
+    font-weight: 700;
+    font-style: normal;
+    margin-bottom: 6px;
+}
+
+.resume-profile img {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--divider);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    margin-bottom: 12px;
+}
+
+.resume-profile h3 {
+    margin: 6px 0 4px;
+    text-align: center;
+}
+
+.resume-profile p {
+    text-align: center;
+    margin: 6px 0;
+}
+
+.resume-footer {
+    max-width: 1200px;
+    margin: 16px auto 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+@media (max-width: 980px) {
+    .resume-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resume-main {
+        order: 1;
+    }
+
+    .resume-profile {
+        order: 2;
+    }
+
+    .resume-nav {
+        order: 3;
+    }
 }

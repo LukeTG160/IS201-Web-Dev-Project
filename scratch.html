@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- Scratch page: includes nested list, custom CSS, YouTube, Tableau, anchor, custom background, and nav back -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scratch Page | Luke Green</title>
+    <link rel="stylesheet" href="scratch.css">
+</head>
+<body id="top">
+    <header class="header">
+        <div>
+            <div class="badge">Scratch Page</div>
+            <h1>Interactive Showcase</h1>
+            <h4>Built from scratch with custom CSS + embeds</h4>
+        </div>
+        <div class="nav-links">
+            <a href="aboutme.html">About</a>
+            <a href="resume.html">Resume</a>
+            <a href="app.html">Web App</a>
+            <a href="#top" class="anchor-link">Back to Top</a>
+        </div>
+    </header>
+
+    <section class="grid">
+        <article class="content">
+            <div class="section" id="lists">
+                <h2>Nested List Demo</h2>
+                <p class="highlight">Ordered + unordered list inside shows hierarchy.</p>
+                <ol>
+                    <li>Favorites
+                        <ul>
+                            <li>Trail running routes</li>
+                            <li>Product design articles</li>
+                            <li>JavaScript tooling tutorials</li>
+                        </ul>
+                    </li>
+                    <li>Goals
+                        <ul>
+                            <li>Ship a polished side project</li>
+                            <li>Contribute to open-source</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="section" id="media">
+                <h2>Embedded YouTube Video</h2>
+                <iframe class="responsive" width="560" height="315" src="https://www.youtube.com/embed/bBC-nXj3Ng4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+
+            <div class="section" id="tableau">
+                <h2>Interactive Tableau Embed</h2>
+                <p class="highlight">Live viz pulled from Tableau Public.</p>
+                <div class="tableauPlaceholder" id="viz1700000000000" style="position: relative; padding-bottom: 56%; height: 0; overflow: hidden; border-radius: 10px;">
+                    <noscript>
+                        <a href="#"><img src="https://public.tableau.com/static/images/WO/WorldIndicators/GDPpercapita/1_rss.png" alt="Tableau placeholder"></a>
+                    </noscript>
+                    <object class="tableauViz" style="display:none;">
+                        <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+                        <param name="embed_code_version" value="3" />
+                        <param name="path" value="views/WorldIndicators/GDPpercapita" />
+                        <param name="toolbar" value="yes" />
+                        <param name="static_image" value="https://public.tableau.com/static/images/WO/WorldIndicators/GDPpercapita/1.png" />
+                        <param name="animate_transition" value="yes" />
+                        <param name="display_static_image" value="yes" />
+                        <param name="display_spinner" value="yes" />
+                        <param name="display_overlay" value="yes" />
+                        <param name="display_count" value="yes" />
+                        <param name="language" value="en-US" />
+                    </object>
+                </div>
+            </div>
+        </article>
+
+        <aside class="sidecard">
+            <h3>Quick Links</h3>
+            <a class="button-link" href="#lists">Lists</a>
+            <a class="button-link" href="#media">YouTube</a>
+            <a class="button-link" href="#tableau">Tableau</a>
+            <a class="button-link secondary" href="app.html">Web App</a>
+            <hr>
+            <h3>Custom Background</h3>
+            <p>The gradient background and panel styling come from <code>scratch.css</code> (custom CSS 1).</p>
+            <h3>Local Image</h3>
+            <img src="PXL_20251207_042829809.jpg" alt="Local photo" style="width:100%; border-radius:10px; border:1px solid var(--border); box-shadow:0 4px 12px rgba(0,0,0,0.12);">
+            <p class="muted">Image is local, not from any theme.</p>
+        </aside>
+    </section>
+
+    <footer class="footer">
+        <span>Scratch page | Custom CSS, YouTube, Tableau, nested lists, anchor | <a href="#top">Back to Top</a></span>
+    </footer>
+
+    <script type="text/javascript">
+        // Tableau embed bootstrap (standard snippet from Tableau Public)
+        const divElement = document.getElementById('viz1700000000000');
+        const vizElement = divElement.getElementsByTagName('object')[0];
+        vizElement.style.width = '100%';
+        vizElement.style.height = '100%';
+        const scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+</body>
+</html>

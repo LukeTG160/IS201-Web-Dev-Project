@@ -1,12 +1,105 @@
 <!DOCTYPE html>
-<!-- Moved: main resume lives at html/resume.html -->
+<!-- Name: Luke Green | Section: IS 201 | Date: Dec 6, 2025 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=html/resume.html">
-    <title>Resume moved</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume | Luke Green</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <p>If you are not redirected, <a href="html/resume.html">click here</a>.</p>
+<body class="resume-body">
+    <div class="resume-topbar">
+        <a href="#" class="active">Resume</a> | <a href="aboutme.html">About</a>
+    </div>
+
+    <div class="resume-grid">
+        <aside class="resume-card resume-nav">
+            <nav>
+                <a href="#education">Education</a>
+                <a href="#experience">Experience</a>
+                <a href="#skills">Skills</a>
+            </nav>
+        </aside>
+
+        <main class="resume-card resume-main">
+            <h1 class="resume-name">Luke Green</h1>
+
+            <section class="resume-section" id="achievements">
+                <div class="section-heading">Achievements</div>
+                <ol class="resume-ordered">
+                    <li>
+                        <span class="resume-list-heading">Education</span>
+                        <ul>
+                            <li>Brigham Young University — Marriott School of Business</li>
+                            <li>Transfer student from BYU Idaho</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="resume-list-heading">Experience</span>
+                        <ul>
+                            <li>Tax Director Services — AI tooling and automation</li>
+                            <li>Coding — Chrome extension for fallacy analysis</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="resume-list-heading">Skills</span>
+                        <ul>
+                            <li>Blockchain and cryptography focus</li>
+                            <li>HTML, CSS, and JavaScript fundamentals</li>
+                            <li>Problem solving and research</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="resume-section" id="education">
+                <div class="section-heading">Education</div>
+                <h3>Information Systems Coursework</h3>
+                <ul>
+                    <li>Web fundamentals: HTML, CSS, responsive layouts.</li>
+                    <li>Productivity: Git/GitHub basics, prompt engineering for AI tools.</li>
+                    <li>Business context: collaborating with peers and presenting deliverables.</li>
+                </ul>
+            </section>
+
+            <section class="resume-section" id="experience">
+                <div class="section-heading">Experience</div>
+                <h3>Student Developer, IS 201</h3>
+                <p class="muted">Jan 2025 – Present</p>
+                <ul>
+                    <li>Built multi-page static sites using semantic HTML and responsive CSS grid/flex layouts.</li>
+                    <li>Implemented reusable styling with CSS variables for consistent theming.</li>
+                    <li>Used GitHub for version control, issue tracking, and iterative improvements.</li>
+                </ul>
+
+                <h3>Project Contributor</h3>
+                <p class="muted">2024 – 2025</p>
+                <ul>
+                    <li>Partnered with classmates to design and present interactive demos.</li>
+                    <li>Documented setup steps and deployment notes to help others run projects easily.</li>
+                </ul>
+            </section>
+
+            <section class="resume-section" id="skills">
+                <div class="section-heading">Skills</div>
+                <ul>
+                    <li>Front-end: HTML, CSS, basic JavaScript.</li>
+                    <li>Design: layout composition, typography, color theming with CSS variables.</li>
+                    <li>Tools: GitHub, VS Code, browser devtools.</li>
+                </ul>
+            </section>
+        </main>
+
+        <aside class="resume-card resume-profile">
+            <img src="ProfilePicture.jpg" alt="Luke Green portrait">
+            <h3>Luke Green</h3>
+            <p class="muted">Student at BYU<br>Provo, Utah</p>
+            <p class="muted">919-606-4944<br><a href="mailto:luketgreen919@gmail.com">luketgreen919@gmail.com</a></p>
+        </aside>
+    </div>
+
+    <footer class="resume-footer">
+        Luke Green Portfolio | © 2025 | <a href="mailto:luketgreen919@gmail.com">luketgreen919@gmail.com</a>
+    </footer>
 </body>
 </html>
