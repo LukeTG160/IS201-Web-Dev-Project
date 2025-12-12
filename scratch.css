@@ -1,12 +1,12 @@
-/* Scratch page custom styles */
+/* Scratch page custom styles - black, blue, brown theme */
 :root {
-    --bg: #f0f4ff;
-    --panel: #ffffff;
-    --text: #1f2a3d;
-    --muted: #5b6b7a;
-    --accent: #2d6cdf;
-    --accent-2: #16a085;
-    --border: #d7deea;
+    --bg: #0a0a0a;
+    --panel: #1a1a1a;
+    --text: #f5f5f5;
+    --muted: #a0a0a0;
+    --accent: #2b7ccc;
+    --accent-2: #8b6139;
+    --border: #3a3a3a;
 }
 
 * {
@@ -17,9 +17,9 @@ body {
     margin: 0;
     padding: 24px 18px 48px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: radial-gradient(circle at 20% 20%, rgba(45,108,223,0.12), transparent 35%),
-                radial-gradient(circle at 80% 10%, rgba(22,160,133,0.14), transparent 32%),
-                linear-gradient(135deg, #e9f1ff 0%, #f8fbff 100%);
+    background: radial-gradient(circle at 20% 20%, rgba(43,124,204,0.15), transparent 35%),
+                radial-gradient(circle at 80% 10%, rgba(139,97,57,0.18), transparent 32%),
+                linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
     color: var(--text);
 }
 
