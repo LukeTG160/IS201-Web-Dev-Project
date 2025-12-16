@@ -44,9 +44,11 @@
             font-size: 18px;
         }
         #cosmo-face {
-            font-size: 40px;
+            font-size: 20px;
+            font-weight: 700;
             cursor: pointer;
             user-select: none;
+            color: #fff;
         }
         #board {
             display: inline-grid;
@@ -166,7 +168,7 @@
             timer = 0;
             mineCountEl.textContent = minesLeft;
             timerEl.textContent = timer;
-            cosmoEl.textContent = '😺';
+            cosmoEl.textContent = '� Happy';
             clearInterval(timerInterval);
             renderBoard();
         }
@@ -273,7 +275,7 @@
                         if (board[nr][nc] === -1) {
                             revealAll();
                             gameOver = true;
-                            cosmoEl.textContent = '❌';
+                            cosmoEl.textContent = '🐆 Sad';
                             clearInterval(timerInterval);
                             setTimeout(() => alert('💥 You hit a Utah bomb! Game Over!'), 100);
                             renderBoard();
@@ -302,7 +304,7 @@
             if (board[r][c] === -1) {
                 revealAll();
                 gameOver = true;
-                cosmoEl.textContent = '❌'; // Cosmo with X eyes
+                cosmoEl.textContent = '🐆 Sad';
                 clearInterval(timerInterval);
                 setTimeout(() => alert('💥 You hit a Utah bomb! Game Over!'), 100);
             } else {
@@ -362,7 +364,7 @@
             if (allRevealed) {
                 gameWon = true;
                 gameOver = true;
-                cosmoEl.textContent = '😎'; // Cosmo with sunglasses
+                cosmoEl.textContent = '�💥 WIN!';
                 clearInterval(timerInterval);
                 launchConfetti();
                 setTimeout(() => alert('🎉 You won! Go Cougars!'), 100);
