@@ -1,144 +1,344 @@
 <!DOCTYPE html>
-<!-- Simple web app (single page) created with AI help: number guessing game -->
+<!-- BYU-themed Minesweeper game created with AI help -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guessing Game | Web App</title>
+    <title>BYU Minesweeper | Web App</title>
     <style>
-        :root {
-            --bg: #0f172a;
-            --panel: #111827;
-            --text: #e5e7eb;
-            --muted: #9ca3af;
-            --accent: #22d3ee;
-            --accent-2: #a78bfa;
-        }
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            margin: 0;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at 20% 20%, rgba(34,211,238,0.15), transparent 30%),
-                        radial-gradient(circle at 80% 10%, rgba(167,139,250,0.18), transparent 32%),
-                        linear-gradient(135deg, #0b1223, #0f172a 50%, #0b1223);
-            color: var(--text);
+            background: linear-gradient(135deg, #002E5D 0%, #0057B8 100%);
+            color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
         }
-        .card {
-            background: var(--panel);
-            border: 1px solid rgba(255,255,255,0.05);
+        .game-container {
+            background: #fff;
             border-radius: 16px;
-            padding: 24px;
-            width: min(420px, 90vw);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+            padding: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            text-align: center;
         }
-        h1 { margin: 0 0 6px; font-size: 26px; }
-        p { margin: 6px 0 14px; color: var(--muted); }
-        .row { display: flex; gap: 10px; margin: 12px 0 8px; }
-        input {
-            flex: 1;
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: #0b1220;
-            color: var(--text);
-            font-size: 16px;
+        h1 {
+            color: #002E5D;
+            margin-bottom: 12px;
+            font-size: 28px;
         }
-        button {
-            padding: 10px 14px;
-            border: none;
-            border-radius: 10px;
-            background: var(--accent);
-            color: #0b1220;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #002E5D;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .header-item {
             font-weight: 700;
+            font-size: 18px;
+        }
+        #cosmo-face {
+            font-size: 40px;
             cursor: pointer;
-            box-shadow: 0 6px 14px rgba(34,211,238,0.35);
+            user-select: none;
         }
-        button:hover { background: #1ab8d5; }
-        .pill {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 999px;
-            background: rgba(167,139,250,0.18);
-            color: var(--accent-2);
+        #board {
+            display: inline-grid;
+            grid-template-columns: repeat(9, 32px);
+            grid-template-rows: repeat(9, 32px);
+            gap: 2px;
+            background: #999;
+            padding: 4px;
+            border-radius: 8px;
+            position: relative;
+        }
+        .cell {
+            width: 32px;
+            height: 32px;
+            background: #bbb;
+            border: 2px outset #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
-            font-size: 12px;
-            margin-left: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
         }
-        .result { margin-top: 12px; font-weight: 700; }
-        .muted { color: var(--muted); font-size: 13px; }
-        a { color: var(--accent); text-decoration: none; font-weight: 600; }
-        a:hover { text-decoration: underline; }
+        .cell:hover {
+            background: #ccc;
+        }
+        .cell.revealed {
+            background: #e0e0e0;
+            border: 1px solid #999;
+            cursor: default;
+        }
+        .cell.revealed:hover {
+            background: #e0e0e0;
+        }
+        .cell.flagged {
+            background: #ffeb3b;
+        }
+        .cell.question {
+            background: #ff9800;
+        }
+        .mine-count-1 { color: #0057B8; }
+        .mine-count-2 { color: #388e3c; }
+        .mine-count-3 { color: #d32f2f; }
+        .mine-count-4 { color: #7b1fa2; }
+        .mine-count-5 { color: #f57c00; }
+        .mine-count-6 { color: #00796b; }
+        .mine-count-7 { color: #303f9f; }
+        .mine-count-8 { color: #424242; }
+        .footer {
+            margin-top: 16px;
+            color: #002E5D;
+        }
+        .footer a {
+            color: #0057B8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Guess the Number <span class="pill">Web App</span></h1>
-        <p>AI-assisted single-page app. Pick a number 1–20. You have 6 tries. We'll hint if you're high or low.</p>
-        <div class="row">
-            <input id="guess" type="number" min="1" max="20" placeholder="Enter 1-20" />
-            <button id="go">Guess</button>
+    <div class="game-container">
+        <h1>🏈 BYU Minesweeper 🏈</h1>
+        <div class="header">
+            <div class="header-item">💣 <span id="mine-count">10</span></div>
+            <div id="cosmo-face" title="Click to restart">😺</div>
+            <div class="header-item">⏱️ <span id="timer">0</span></div>
         </div>
-        <div class="result" id="result">Game ready. Make your first guess.</div>
-        <p class="muted">Tries left: <span id="tries">6</span></p>
-        <p class="muted">Need to reset? <a href="#" id="reset">Start over</a> | <a href="scratch.html">Back to scratch page</a></p>
+        <div id="board"></div>
+        <canvas id="confetti-canvas"></canvas>
+        <div class="footer">
+            <p><strong>Left-click</strong> to reveal | <strong>Right-click</strong> to flag 🏴 | <strong>Double right-click</strong> for ❓</p>
+            <p style="margin-top: 8px;"><a href="scratch.html">← Back to scratch page</a></p>
+        </div>
     </div>
 
     <script>
-        const guessInput = document.getElementById('guess');
-        const goBtn = document.getElementById('go');
-        const resultEl = document.getElementById('result');
-        const triesEl = document.getElementById('tries');
-        const resetLink = document.getElementById('reset');
+        const ROWS = 9, COLS = 9, MINES = 10;
+        let board = [], revealed = [], flagged = [], questioned = [];
+        let gameOver = false, gameWon = false, firstClick = true;
+        let minesLeft = MINES, timer = 0, timerInterval = null;
 
-        let secret, tries;
+        const boardEl = document.getElementById('board');
+        const cosmoEl = document.getElementById('cosmo-face');
+        const mineCountEl = document.getElementById('mine-count');
+        const timerEl = document.getElementById('timer');
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
 
-        function initGame() {
-            secret = Math.floor(Math.random() * 20) + 1;
-            tries = 6;
-            triesEl.textContent = tries;
-            resultEl.textContent = 'Game ready. Make your first guess.';
-            resultEl.style.color = '#e5e7eb';
-            guessInput.value = '';
-            guessInput.focus();
+        function init() {
+            board = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
+            revealed = Array(ROWS).fill(null).map(() => Array(COLS).fill(false));
+            flagged = Array(ROWS).fill(null).map(() => Array(COLS).fill(false));
+            questioned = Array(ROWS).fill(null).map(() => Array(COLS).fill(false));
+            gameOver = false;
+            gameWon = false;
+            firstClick = true;
+            minesLeft = MINES;
+            timer = 0;
+            mineCountEl.textContent = minesLeft;
+            timerEl.textContent = timer;
+            cosmoEl.textContent = '😺';
+            clearInterval(timerInterval);
+            renderBoard();
         }
 
-        function handleGuess() {
-            const val = parseInt(guessInput.value, 10);
-            if (Number.isNaN(val) || val < 1 || val > 20) {
-                resultEl.textContent = 'Enter a whole number between 1 and 20.';
-                resultEl.style.color = '#f87171';
-                return;
+        function placeMines(avoidRow, avoidCol) {
+            let placed = 0;
+            while (placed < MINES) {
+                const r = Math.floor(Math.random() * ROWS);
+                const c = Math.floor(Math.random() * COLS);
+                if (board[r][c] !== -1 && !(r === avoidRow && c === avoidCol)) {
+                    board[r][c] = -1;
+                    placed++;
+                }
             }
-            if (tries <= 0) {
-                resultEl.textContent = `Out of tries! The number was ${secret}. Click reset to play again.`;
-                resultEl.style.color = '#f87171';
-                return;
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    if (board[r][c] !== -1) {
+                        let count = 0;
+                        for (let dr = -1; dr <= 1; dr++) {
+                            for (let dc = -1; dc <= 1; dc++) {
+                                const nr = r + dr, nc = c + dc;
+                                if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && board[nr][nc] === -1) count++;
+                            }
+                        }
+                        board[r][c] = count;
+                    }
+                }
             }
-            tries -= 1;
-            triesEl.textContent = tries;
-            if (val === secret) {
-                resultEl.textContent = `Nice! ${val} is correct. Click reset to play again.`;
-                resultEl.style.color = '#22d3ee';
-            } else if (val < secret) {
-                resultEl.textContent = `${val} is too low. ${tries} tries left.`;
-                resultEl.style.color = '#fbbf24';
+        }
+
+        function renderBoard() {
+            boardEl.innerHTML = '';
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = r;
+                    cell.dataset.col = c;
+                    
+                    if (revealed[r][c]) {
+                        cell.classList.add('revealed');
+                        if (board[r][c] === -1) {
+                            cell.textContent = '🔴'; // Utah logo placeholder
+                        } else if (board[r][c] > 0) {
+                            cell.textContent = board[r][c];
+                            cell.classList.add(`mine-count-${board[r][c]}`);
+                        }
+                    } else if (flagged[r][c]) {
+                        cell.classList.add('flagged');
+                        cell.textContent = '🏴'; // Cosmo flag placeholder
+                    } else if (questioned[r][c]) {
+                        cell.classList.add('question');
+                        cell.textContent = '❓';
+                    }
+
+                    cell.addEventListener('click', () => handleLeftClick(r, c));
+                    cell.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        handleRightClick(r, c);
+                    });
+                    
+                    boardEl.appendChild(cell);
+                }
+            }
+        }
+
+        function handleLeftClick(r, c) {
+            if (gameOver || gameWon || revealed[r][c] || flagged[r][c]) return;
+
+            if (firstClick) {
+                placeMines(r, c);
+                firstClick = false;
+                timerInterval = setInterval(() => {
+                    timer++;
+                    timerEl.textContent = timer;
+                }, 1000);
+            }
+
+            if (board[r][c] === -1) {
+                revealAll();
+                gameOver = true;
+                cosmoEl.textContent = '❌'; // Cosmo with X eyes
+                clearInterval(timerInterval);
+                setTimeout(() => alert('💥 You hit a Utah bomb! Game Over!'), 100);
             } else {
-                resultEl.textContent = `${val} is too high. ${tries} tries left.`;
-                resultEl.style.color = '#fbbf24';
+                reveal(r, c);
+                checkWin();
+            }
+            renderBoard();
+        }
+
+        function handleRightClick(r, c) {
+            if (gameOver || gameWon || revealed[r][c]) return;
+
+            if (!flagged[r][c] && !questioned[r][c]) {
+                flagged[r][c] = true;
+                minesLeft--;
+            } else if (flagged[r][c]) {
+                flagged[r][c] = false;
+                questioned[r][c] = true;
+                minesLeft++;
+            } else if (questioned[r][c]) {
+                questioned[r][c] = false;
+            }
+
+            mineCountEl.textContent = minesLeft;
+            renderBoard();
+        }
+
+        function reveal(r, c) {
+            if (r < 0 || r >= ROWS || c < 0 || c >= COLS || revealed[r][c]) return;
+            revealed[r][c] = true;
+            if (board[r][c] === 0) {
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        reveal(r + dr, c + dc);
+                    }
+                }
             }
         }
 
-        goBtn.addEventListener('click', handleGuess);
-        guessInput.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') handleGuess();
-        });
-        resetLink.addEventListener('click', (e) => { e.preventDefault(); initGame(); });
+        function revealAll() {
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    revealed[r][c] = true;
+                }
+            }
+        }
 
-        initGame();
+        function checkWin() {
+            let allRevealed = true;
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS; c++) {
+                    if (board[r][c] !== -1 && !revealed[r][c]) {
+                        allRevealed = false;
+                    }
+                }
+            }
+            if (allRevealed) {
+                gameWon = true;
+                gameOver = true;
+                cosmoEl.textContent = '😎'; // Cosmo with sunglasses
+                clearInterval(timerInterval);
+                launchConfetti();
+                setTimeout(() => alert('🎉 You won! Go Cougars!'), 100);
+            }
+        }
+
+        function launchConfetti() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const confetti = [];
+            for (let i = 0; i < 150; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 4 + 2,
+                    d: Math.random() * 10 + 5,
+                    color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+                    tilt: Math.random() * 10 - 5
+                });
+            }
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach((p, i) => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, 2 * Math.PI);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+                    p.y += p.d;
+                    p.x += p.tilt;
+                    if (p.y > canvas.height) confetti.splice(i, 1);
+                });
+                if (confetti.length > 0) requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        cosmoEl.addEventListener('click', init);
+        init();
     </script>
 </body>
 </html>
