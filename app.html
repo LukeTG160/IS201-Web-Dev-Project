@@ -88,6 +88,13 @@
         .cell.question {
             background: #ff9800;
         }
+        .utah-bomb {
+            font-size: 18px;
+            font-weight: 900;
+            color: #CC0000;
+            font-family: 'Arial Black', 'Arial Bold', sans-serif;
+            text-shadow: 1px 1px 0px #8B0000;
+        }
         .mine-count-1 { color: #0057B8; }
         .mine-count-2 { color: #388e3c; }
         .mine-count-3 { color: #d32f2f; }
@@ -129,6 +136,7 @@
         <canvas id="confetti-canvas"></canvas>
         <div class="footer">
             <p><strong>Left-click</strong> to reveal | <strong>Right-click</strong> to flag 🏴 | <strong>Double right-click</strong> for ❓</p>
+            <p><strong>Both buttons</strong> on revealed number to chord (auto-reveal neighbors if flags match)</p>
             <p style="margin-top: 8px;"><a href="scratch.html">← Back to scratch page</a></p>
         </div>
     </div>
@@ -201,7 +209,7 @@
                     if (revealed[r][c]) {
                         cell.classList.add('revealed');
                         if (board[r][c] === -1) {
-                            cell.textContent = '🔴'; // Utah logo placeholder
+                            cell.innerHTML = '<span class="utah-bomb">U</span>';
                         } else if (board[r][c] > 0) {
                             cell.textContent = board[r][c];
                             cell.classList.add(`mine-count-${board[r][c]}`);
@@ -214,18 +222,72 @@
                         cell.textContent = '❓';
                     }
 
-                    cell.addEventListener('click', () => handleLeftClick(r, c));
+                    cell.addEventListener('click', (e) => handleLeftClick(r, c, e));
                     cell.addEventListener('contextmenu', (e) => {
                         e.preventDefault();
                         handleRightClick(r, c);
                     });
+                    cell.addEventListener('mousedown', (e) => handleMouseDown(r, c, e));
                     
                     boardEl.appendChild(cell);
                 }
             }
         }
 
-        function handleLeftClick(r, c) {
+        let leftPressed = false, rightPressed = false;
+
+        function handleMouseDown(r, c, e) {
+            if (e.button === 0) leftPressed = true;
+            if (e.button === 2) rightPressed = true;
+            
+            if (leftPressed && rightPressed) {
+                e.preventDefault();
+                handleChord(r, c);
+            }
+        }
+
+        document.addEventListener('mouseup', (e) => {
+            if (e.button === 0) leftPressed = false;
+            if (e.button === 2) rightPressed = false;
+        });
+
+        function handleChord(r, c) {
+            if (gameOver || gameWon || !revealed[r][c] || board[r][c] <= 0) return;
+
+            let flagCount = 0;
+            const neighbors = [];
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    if (dr === 0 && dc === 0) continue;
+                    const nr = r + dr, nc = c + dc;
+                    if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+                        neighbors.push([nr, nc]);
+                        if (flagged[nr][nc]) flagCount++;
+                    }
+                }
+            }
+
+            if (flagCount === board[r][c]) {
+                for (const [nr, nc] of neighbors) {
+                    if (!revealed[nr][nc] && !flagged[nr][nc]) {
+                        if (board[nr][nc] === -1) {
+                            revealAll();
+                            gameOver = true;
+                            cosmoEl.textContent = '❌';
+                            clearInterval(timerInterval);
+                            setTimeout(() => alert('💥 You hit a Utah bomb! Game Over!'), 100);
+                            renderBoard();
+                            return;
+                        }
+                        reveal(nr, nc);
+                    }
+                }
+                checkWin();
+                renderBoard();
+            }
+        }
+
+        function handleLeftClick(r, c, e) {
             if (gameOver || gameWon || revealed[r][c] || flagged[r][c]) return;
 
             if (firstClick) {
